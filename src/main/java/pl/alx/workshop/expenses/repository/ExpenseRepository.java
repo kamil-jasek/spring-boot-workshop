@@ -4,13 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import pl.alx.workshop.expenses.dto.ExpensesByCategory;
 import pl.alx.workshop.expenses.entity.Expense;
 import pl.alx.workshop.expenses.entity.ExpenseId;
 
-public interface ExpenseRepository extends JpaRepository<Expense, ExpenseId> {
+public interface ExpenseRepository extends JpaRepository<Expense, ExpenseId>, JpaSpecificationExecutor<Expense> {
 	
 	@Query("from Expense e where e.id.email = ?1")
 	List<Expense> findAllByUser(String email);

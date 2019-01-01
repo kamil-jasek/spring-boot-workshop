@@ -1,11 +1,15 @@
 package pl.alx.workshop.expenses;
 
+import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static pl.alx.workshop.expenses.repository.ExpensesSpecs.withFilter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +21,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import pl.alx.workshop.expenses.dto.AmountFilter;
 import pl.alx.workshop.expenses.dto.ExpensesByCategory;
+import pl.alx.workshop.expenses.dto.ExpensesFilter;
 import pl.alx.workshop.expenses.entity.Expense;
 import pl.alx.workshop.expenses.entity.User;
 import pl.alx.workshop.expenses.repository.ExpenseRepository;
@@ -60,8 +66,22 @@ public class RepositoryTest {
 		
 		// group by category, sum(amount) - HQL
 		List<ExpensesByCategory> categoryExpenses = expenseRepository.groupByCategory(
-				TEST_USER, LocalDateTime.now().minusDays(5), LocalDateTime.now());
+				TEST_USER, 
+				LocalDateTime.now().with(firstDayOfMonth()), 
+				LocalDateTime.now().with(lastDayOfMonth()));
 		assertThat(categoryExpenses, is(not(empty())));
+	}
+	
+	@Test
+	public void testExpensesDynamicFilter() {
+		final ExpensesFilter filter = ExpensesFilter.builder()
+				.user(TEST_USER)
+				.amountFilter(new AmountFilter(BigDecimal.valueOf(10), BigDecimal.valueOf(200)))
+				.category("Zak")
+				.build();
+		
+		List<Expense> results = expenseRepository.findAll(withFilter(filter));
+		assertThat(results, is(not(empty())));
 	}
 }
 
