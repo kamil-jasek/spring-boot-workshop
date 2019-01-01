@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div class="navbar-header" th:fragment="logo">
+        <a class="navbar-brand" href="index.html">Expense Admin v1.0</a>
+    </div>
+    
+    <ul class="nav navbar-top-links navbar-right" th:fragment="navbar">
+       <li class="dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+               <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+           </a>
+           <ul class="dropdown-menu dropdown-user">
+               <li><a href="#"><i class="fa fa-user fa-fw"></i> [[${#httpServletRequest.remoteUser}]]</a>
+               </li>
+               <li class="divider"></li>
+               <li>
+               		<form name="logout-form" th:action="@{/logout}" method="post" style="display:none">
+			            <input type="submit" value="Log Out"/>
+			        </form>
+               		<a href="#" onclick="document.getElementsByName('logout-form')[0].submit();return false;">
+               			<i class="fa fa-sign-out fa-fw"></i> Logout
+          			</a>
+               </li>
+           </ul>
+       </li>
+   </ul>
+  </body>
+</html>
