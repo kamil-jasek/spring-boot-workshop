@@ -8,17 +8,20 @@ import static pl.alx.workshop.expenses.repository.ExpensesSpecs.withFilter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.Year;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.alx.workshop.expenses.dto.DateFilter;
+import pl.alx.workshop.expenses.dto.ExpenseForm;
 import pl.alx.workshop.expenses.dto.ExpensesByCategory;
 import pl.alx.workshop.expenses.dto.ExpensesByDate;
 import pl.alx.workshop.expenses.dto.ExpensesFilter;
+import pl.alx.workshop.expenses.entity.Expense;
+import pl.alx.workshop.expenses.entity.ExpenseId;
 import pl.alx.workshop.expenses.repository.ExpenseRepository;
 
 @Service
@@ -55,5 +58,16 @@ public class ExpensesService {
 						.map(el -> el.getAmount())
 						.reduce(BigDecimal.ZERO, BigDecimal::add)))
 				.collect(toList());
+	}
+	
+	@Transactional
+	public void save(String user, ExpenseForm expense) {
+		expenseRepository.save(Expense.builder()
+				.id(new ExpenseId(user, expense.getDate()))
+				.amount(expense.getAmount())
+				.category(expense.getCategory())
+				.currency(expense.getCurrency())
+				.name(expense.getName())
+				.build());
 	}
 }
