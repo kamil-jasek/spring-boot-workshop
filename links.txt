@@ -1,0 +1,23 @@
+# SPRING STARTER - generowanie projektu:
+https://start.spring.io/
+
+# SPRING CORE - podstawa do zrozumienie Spring'a i IoC:
+https://docs.spring.io/spring/docs/5.1.3.RELEASE/spring-framework-reference/core.html#spring-core
+
+# SPRING BOOT REFERENCE DOCUMENTATION:
+https://docs.spring.io/spring-boot/docs/current/reference/html/
+
+# SPRING DATA JPA
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
+
+# SPRING MVC
+https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html
+
+# Alternatywy dla JPA/Hibernate
+http://jdbi.org/
+https://www.jooq.org/
+
+# Dodatkowe bilioteki
+## Lombok: https://projectlombok.org/
+## Guava: https://github.com/google/guava
+## MapStruct: http://mapstruct.org/
